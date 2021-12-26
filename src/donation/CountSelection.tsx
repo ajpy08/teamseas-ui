@@ -35,8 +35,7 @@ export const CountSelection = ({ initialCount, next }: Props) => {
 
   const group = getRootProps();
 
-  const nextStep = () => {
-    console.log(pounds);    
+  const nextStep = () => { 
     if (pounds > 0) next({ count: pounds });
     alert('El valor debe ser mayor que 0.')
     setPounds(20)
