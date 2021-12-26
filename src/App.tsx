@@ -14,6 +14,7 @@ import { Logo } from "./Logo"
 import { Counter } from './donation/Counter'
 import { useQuery, useSubscription } from 'urql';
 import { LeaderBoard } from './leaderboard/Leaderboard'
+import { DonationWizard } from './donation/DonationWizard'
 
 const TotalDonationsQuery = `
   query Query {
@@ -66,7 +67,7 @@ export const App = () => {
               <Counter from={0} to={res.data || data.totalDonations} />
             </Heading>
 
-            [Donation Wizard]
+            <DonationWizard/>
 
             <LeaderBoard/>
         </VStack>
