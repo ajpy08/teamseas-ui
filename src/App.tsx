@@ -13,12 +13,25 @@ import {
 import { Logo } from "./Logo"
 import { Counter } from './donation/Counter'
 import { useQuery, useSubscription } from 'urql';
+import { LeaderBoard } from './leaderboard/Leaderboard'
 
 const TotalDonationsQuery = `
   query Query {
     totalDonations
   }
 `;
+
+const TotalUpdatedQuery = `
+  subscription Subscription {
+    totalUpdated {
+      total
+    }
+  }
+`;
+
+const handleSubscription = (previous: any, newTotal: any) => {
+  return newTotal?.totalUpdated?.total;
+};
 
 const theme = extendTheme({
   fonts: {
@@ -28,6 +41,10 @@ const theme = extendTheme({
 });
 
 export const App = () => {
+  const [res] = useSubscription(
+    { query: TotalUpdatedQuery },
+    handleSubscription
+  );
   const [{ data, fetching, error }] = useQuery({
     query: TotalDonationsQuery,
   });
@@ -46,8 +63,12 @@ export const App = () => {
               <br /> Remove trash with us and track our progress!
           </Text>
             <Heading as="h2" size="4xl">
-              <Counter from={0} to={data.totalDonations}/>
+              <Counter from={0} to={res.data || data.totalDonations} />
             </Heading>
+
+            [Donation Wizard]
+
+            <LeaderBoard/>
         </VStack>
       </Grid>
     </Box>
